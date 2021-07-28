@@ -1,1 +1,50 @@
-1123
+<?php
+
+$clickid=$_POST['clickid'];
+$pub=$_POST['pub'];
+
+$url = 'https://network.worldfilia.net/manager/inventory/buy/ailoshopgr_coolhp.json?api_key=a51cbf51cd059489c7d040950f7aaf53';
+$fields = array(
+	
+	//'api_key' => '0bd04fee26b5db3278af5383dfa28458',
+	'source_id' => '95c8f422f9c3',
+    'name' => urlencode($_POST['name']),
+    'phone' => urlencode($_POST['phone']),
+	'address' => urlencode($_POST['address']),
+	'city' => urlencode($_POST['city']),
+	'zipcode' => urlencode($_POST['zipcode']),
+	'quantity' => urlencode($_POST['quantity']),
+	'extra_options' => $_POST["extra_options"],
+	'notes' => urlencode($_POST['notes']),
+	
+	
+	//'ip' => $_SERVER['REMOTE_ADDR'],
+	//'aff_sub2' => $clickid,
+	//'aff_sub1' => $pub
+	'aff_sub2' => urlencode($_POST['name']),
+	'aff_sub1' => urlencode($_POST['address'])
+	  
+);
+
+
+$fields_string = http_build_query($fields);
+rtrim($fields_string, '&');
+
+//open connection
+$ch = curl_init();
+
+//set the url, number of POST vars, POST data
+curl_setopt($ch,CURLOPT_URL, $url);
+curl_setopt($ch,CURLOPT_POST, count($fields));
+curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+
+curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+
+//execute post
+$result = curl_exec($ch);
+
+//close connection
+curl_close($ch);
+?>
+
+
